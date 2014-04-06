@@ -1,0 +1,16 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    byebug (2.7.0)
+      columnize (~> 0.3)
+      debugger-linecache (~> 1.2)
+    columnize (0.3.6)
+    debugger-linecache (1.2.0)
+    gosu (0.7.50)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  byebug
+  gosu
