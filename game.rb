@@ -13,10 +13,13 @@ class GameWindow < Jam::Window
     @player.position.set!(width/2, height/2)
 
     world.root.addChildren(@player)
+    world.assets[:music].play
   end
 
   def button_down(button_id)
     close if button_id == Gosu::KbEscape
+
+    world.assets[:sound].play
   end
 
   def update

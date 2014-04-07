@@ -22,14 +22,22 @@ module Jam
 
       def asset(key, type, *args)
         raise(DuplicateKeyError, key) if @assets[key]
-        @assets[key] = self.send("load_#{type}", *args)
+        @assets[key] = self.send("_load_#{type}", *args)
       end
 
-      def load_image(path)
-        Gosu::Image.new(@window, resolve_path(path), false)
+      def _load_image(path)
+        Gosu::Image.new(@window, _resolve_path(path), false)
       end
 
-      def resolve_path(relative_path)
+      def _load_sound(path)
+        Gosu::Sample.new(@window, _resolve_path(path))
+      end
+
+      def _load_music(path)
+        Gosu::Song.new(@window, _resolve_path(path))
+      end
+
+      def _resolve_path(relative_path)
         return File.join(@load_path, relative_path)
       end
 
