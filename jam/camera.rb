@@ -1,7 +1,7 @@
 module Jam
 
   class Camera
-    attr_reader :center # + custom writer
+    jam_vector_accessor :center
     attr_accessor :zoom
 
     def initialize
@@ -17,10 +17,6 @@ module Jam
           end
         end
       end
-    end
-
-    def center=(pos)
-      @center.set!(pos)
     end
 
   end

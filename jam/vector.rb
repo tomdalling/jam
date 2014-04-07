@@ -3,24 +3,33 @@ module Jam
   class Vector
     attr_accessor :x, :y
 
-    def self.rand
-      args = [1.0, -1.0]
-      self.new(Jam.rand(*args), Jam.rand(*args))
+    def self.rand(x_range = nil, y_range = nil)
+      x_range = -1.0..1.0 if x_range.nil?
+      y_range = x_range if y_range.nil?
+      self.new(Jam.rand(x_range), Jam.rand(y_range))
     end
 
-    def initialize(x = 0, y = 0)
-      @x = x
-      @y = y
+    def initialize(*args)
+      args = [0, 0] if args.length == 0
+      set!(*args)
     end
 
-    def set!(other_or_x, y = nil)
-      if y.nil?
-        raise ArgumentError, other_or_x unless other_or_x.is_a? Vector
-        @x = other_or_x.x
-        @y = other_or_x.y
-      else
-        @x = other_or_x
+    def set!(x_or_obj, y = nil)
+      if y
+        @x = x_or_obj
         @y = y
+      else
+        case x_or_obj
+        when Vector
+          set!(x_or_obj.x, x_or_obj.y)
+        when Numeric
+          set!(x_or_obj, x_or_obj)
+        when Array
+          raise ArgumentError, x_or_obj unless x_or_obj.size == 2
+          set!(x_or_obj[0], x_or_obj[1])
+        else
+          raise ArgumentError, x_or_obj
+        end
       end
 
       self
@@ -34,13 +43,16 @@ module Jam
       end
     end
 
+    def length=(len)
+      unitize!.multiply!(len)
+    end
+
     def unitize
       dup.unitize!
     end
 
     def unitize!
       l = length
-      byebug if l == 0
       @x /= l
       @y /= l
       self
@@ -78,6 +90,25 @@ module Jam
       dup.multiply!(scalar)
     end
 
+  end
+
+end
+
+class Class
+
+  def jam_vector_accessor(*names)
+    jam_vector_writer(*names)
+    attr_reader(*names)
+  end
+
+  def jam_vector_writer(*names)
+    names.each do |attr|
+      self.class_eval <<-end_class_eval
+        def #{attr}=(*args)
+          @#{attr}.set!(*args)
+        end
+      end_class_eval
+    end
   end
 
 end

@@ -5,9 +5,9 @@ module Jam
     attr_accessor :tint
     attr_accessor :rotation # degrees
     attr_reader :image
-    attr_reader :position # + custom writer
-    attr_reader :scale # + custom writer
-    attr_reader :anchor # + custom writer
+    jam_vector_accessor :position
+    jam_vector_accessor :scale
+    jam_vector_accessor :anchor
 
     def initialize
       super
@@ -18,18 +18,6 @@ module Jam
       @position = Vector.new
       @scale = Vector.new(1,1)
       @anchor = Vector.new(0.5,0.5)
-    end
-
-    def position=(*args)
-      @position.set!(*args)
-    end
-
-    def anchor=(*args)
-      @anchor.set!(*args)
-    end
-
-    def scale=(*args)
-      @scale.set!(*args)
     end
 
     def draw
