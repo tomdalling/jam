@@ -37,6 +37,14 @@ module Jam
         Gosu::Song.new(@window, _resolve_path(path))
       end
 
+      def _load_font(path, options={})
+        options = {
+          height: 20 #pixels
+        }.merge(options)
+
+        Gosu::Font.new(@window, _resolve_path(path), options.fetch(:height))
+      end
+
       def _resolve_path(relative_path)
         return File.join(@load_path, relative_path)
       end

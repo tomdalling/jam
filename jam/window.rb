@@ -14,8 +14,6 @@ module Jam
       @lastUpdate = nil
       @world = make_world
       @fps = FPS.new
-
-      @fps.on_update { puts "            #{@fps.value} FPS - #{GC.count} GCs" }
     end
 
     def update

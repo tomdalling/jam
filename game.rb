@@ -34,8 +34,6 @@ class GameWindow < Jam::Window
     end
     @world.root.addChildren(@player)
 
-    puts "          #{world.root.children.size}" if world.root.children.size % 100 == 1 && world.root.children.size < 5000
-
     @player.position.x += 10 if button_down? Gosu::KbRight
     @player.position.x -= 10 if button_down? Gosu::KbLeft
     @player.position.y += 10 if button_down? Gosu::KbDown
@@ -48,6 +46,8 @@ class GameWindow < Jam::Window
       @background.draw(0,0,0)
       super
     end
+
+    world.assets[:font].draw("FPS: #{fps}", 0, 0, 0)
   end
 
 end

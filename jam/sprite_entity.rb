@@ -1,18 +1,20 @@
 module Jam
 
   class SpriteEntity < Entity
-    attr_accessor :image
+    attr_accessor :visible
     attr_accessor :tint
     attr_accessor :rotation # degrees
+    attr_reader :image
     attr_reader :position # + custom writer
     attr_reader :scale # + custom writer
     attr_reader :anchor # + custom writer
 
     def initialize
       super
-      @image = nil
+      @visible = true
       @tint = 0xffffffff
       @rotation = 0
+      @image = nil
       @position = Vector.new
       @scale = Vector.new(1,1)
       @anchor = Vector.new(0.5,0.5)
@@ -31,7 +33,7 @@ module Jam
     end
 
     def draw
-      return unless @image
+      return unless @image && @visible
       @image.draw_rot(
         @position.x,
         @position.y,
