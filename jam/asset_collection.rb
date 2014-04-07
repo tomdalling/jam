@@ -1,9 +1,9 @@
 module Jam
+  class AssetNotFoundError < StandardError; end
+  class DuplicateAssetError < StandardError; end
 
   class AssetCollection
-
-    class AssetNotFoundError < StandardError; end
-    class DuplicateKeyError < StandardError; end
+    attr_reader :window
 
     def initialize(window, manifest_path)
       @window = window
@@ -18,35 +18,16 @@ module Jam
       @assets[key] || raise(AssetNotFoundError, key)
     end
 
+    def resolve_path(path)
+      fail unless @load_path
+      File.join(@load_path, path)
+    end
+
     private
 
       def asset(key, type, *args)
-        raise(DuplicateKeyError, key) if @assets[key]
-        @assets[key] = self.send("_load_#{type}", *args)
-      end
-
-      def _load_image(path)
-        Gosu::Image.new(@window, _resolve_path(path), false)
-      end
-
-      def _load_sound(path)
-        Gosu::Sample.new(@window, _resolve_path(path))
-      end
-
-      def _load_music(path)
-        Gosu::Song.new(@window, _resolve_path(path))
-      end
-
-      def _load_font(path, options={})
-        options = {
-          height: 20 #pixels
-        }.merge(options)
-
-        Gosu::Font.new(@window, _resolve_path(path), options.fetch(:height))
-      end
-
-      def _resolve_path(relative_path)
-        return File.join(@load_path, relative_path)
+        raise(DuplicateAssetError, key) if @assets[key]
+        @assets[key] = AssetLoader.load_asset(type, self, *args)
       end
 
   end

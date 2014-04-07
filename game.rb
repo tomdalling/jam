@@ -1,7 +1,7 @@
+require 'byebug'
 require_relative 'jam'
 require_relative 'ball'
 require_relative 'player'
-require 'byebug'
 
 class GameWindow < Jam::Window
 

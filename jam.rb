@@ -5,6 +5,7 @@ require_relative 'jam/sprite_entity'
 require_relative 'jam/world'
 require_relative 'jam/fps'
 require_relative 'jam/window'
+require_relative 'jam/asset_loader'
 require_relative 'jam/asset_collection'
 require_relative 'jam/camera'
 
