@@ -59,17 +59,28 @@ module Jam
 
   AssetLoader.register(:animation) do |collection, path, options = {}|
     options = {
-      rows: 1,
-      columns: 1,
+      grid: [1,1], # [columns, rows]
+      # optional keys:
+      # row: 1 # only take frames from a single row (top row = 1)
     }.merge(options)
+
+    columns, rows = options.delete(:grid)
 
     frames = Gosu::Image.load_tiles(
       collection.window,
       collection.resolve_path(path),
-      -options.delete(:columns),
-      -options.delete(:rows),
+      -columns,
+      -rows,
       false
     )
+
+    if options[:row]
+      r = options[:row] - 1
+      raise ArgumentError if r >= rows
+      first_frame = columns * r
+      last_frame = first_frame + columns - 1
+      frames = frames[first_frame..last_frame]
+    end
 
     Animation.new(frames, options)
   end
