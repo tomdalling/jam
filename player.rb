@@ -7,8 +7,4 @@ class Player < Jam::SpriteEntity
     @scale.set!(3, 3)
   end
 
-  def update(secsElapsed)
-    @image.update(secsElapsed)
-  end
-
 end

@@ -20,6 +20,12 @@ module Jam
       @anchor = Vector.new(0.5,0.5)
     end
 
+    def update(secs_elapsed)
+      if @image && @image.respond_to?(:update)
+        @image.update(secs_elapsed)
+      end
+    end
+
     def draw
       return unless @image && @visible
       @image.draw_rot(
