@@ -9,6 +9,7 @@ class Player < Jam::SpriteEntity
   def load(world)
     super
     @sprite.speed = 2
+    @anchor.set!(@sprite.width/2, @sprite.height)
   end
 
 end

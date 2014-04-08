@@ -13,6 +13,11 @@ class Ball < Jam::SpriteEntity
     @velocity.set!(direction).multiply!(200/@generation) if direction
   end
 
+  def load(world)
+    super
+    @anchor.set!(@sprite.width/2, @sprite.height/2)
+  end
+
   def update(secs_elapsed)
     @position.add!(@velocity * secs_elapsed)
     @rotation += @rotational_velocity * secs_elapsed

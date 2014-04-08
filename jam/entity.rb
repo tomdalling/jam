@@ -18,8 +18,8 @@ module Jam
       self
     end
 
-    def draw
-      each_child { |e| e.draw }
+    def draw(context)
+      each_child { |e| e.draw(context) }
       self
     end
 

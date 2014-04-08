@@ -21,13 +21,13 @@ module Jam
       if @lastUpdate
         elapsed = now - @lastUpdate
         @fps.millis_elapsed(elapsed)
-        @world.root.update(elapsed/1000.0)
+        @world.update(elapsed/1000.0)
       end
       @lastUpdate = now
     end
 
     def draw
-      @world.root.draw
+      @world.draw
       @fps.frame_rendered
     end
 

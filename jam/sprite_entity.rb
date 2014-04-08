@@ -17,7 +17,7 @@ module Jam
       @sprite = sprite
       @position = Vector.new
       @scale = Vector.new(1,1)
-      @anchor = Vector.new(0.5,0.5)
+      @anchor = Vector.new
     end
 
     def load(world)
@@ -34,19 +34,11 @@ module Jam
       end
     end
 
-    def draw
-      return unless @sprite && @visible
-      @sprite.draw_rot(
-        @position.x,
-        @position.y,
-        0,
-        @rotation,
-        @anchor.x,
-        @anchor.y,
-        @scale.x,
-        @scale.y,
-        @tint
-      )
+    def draw(context)
+      context.with_transform(@position, @anchor, @rotation, @scale, @tint) do
+        @sprite.draw(0,0,0,1,1,context.tint) if @sprite && @visible
+        super
+      end
     end
 
   end

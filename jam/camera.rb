@@ -11,7 +11,7 @@ module Jam
 
     def apply(window)
       window.translate(window.width/2.0, window.height/2.0) do
-        window.scale(@zoom) do
+        window.scale(@zoom, @zoom) do
           window.translate(-@center.x, -@center.y) do
             yield
           end

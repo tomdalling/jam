@@ -45,8 +45,12 @@ module Jam
       frame.draw(*args)
     end
 
-    def draw_rot(*args)
-      frame.draw_rot(*args)
+    def height
+      frame.height
+    end
+
+    def width
+      frame.width
     end
 
     private
