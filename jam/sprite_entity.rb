@@ -29,14 +29,12 @@ module Jam
     end
 
     def update(secs_elapsed)
-      if @sprite && @sprite.respond_to?(:update)
-        @sprite.update(secs_elapsed)
-      end
+      @sprite.update(secs_elapsed) if @sprite
     end
 
     def draw(context)
       context.with_transform(@position, @anchor, @rotation, @scale, @tint) do
-        @sprite.draw(0,0,0,1,1,context.tint) if @sprite && @visible
+        @sprite.draw(context) if @sprite && @visible
         super
       end
     end

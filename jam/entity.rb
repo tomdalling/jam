@@ -1,6 +1,6 @@
 module Jam
 
-  class Entity
+  class Entity < Sprite
     attr_accessor :parent
     attr_reader :children
 

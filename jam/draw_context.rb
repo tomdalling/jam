@@ -1,6 +1,7 @@
 module Jam
 
   class DrawContext
+    attr_reader :window
 
     def initialize(window)
       @window = window

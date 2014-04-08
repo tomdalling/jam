@@ -1,5 +1,6 @@
 require 'gosu'
 require_relative 'jam/vector'
+require_relative 'jam/sprite'
 require_relative 'jam/entity'
 require_relative 'jam/sprite_entity'
 require_relative 'jam/draw_context'

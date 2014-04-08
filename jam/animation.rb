@@ -14,12 +14,12 @@ module Jam
     end
 
     def to_sprite
-      AnimationInstance.new(self)
+      AnimationSprite.new(self)
     end
 
   end
 
-  class AnimationInstance
+  class AnimationSprite
     attr_accessor :speed
 
     def initialize(animation)
@@ -41,8 +41,8 @@ module Jam
       @animation.frames[@frame]
     end
 
-    def draw(*args)
-      frame.draw(*args)
+    def draw(context)
+      frame.draw(0, 0, 0, 1, 1, context.tint)
     end
 
     def height
@@ -90,3 +90,4 @@ module Jam
   end
 
 end
+
