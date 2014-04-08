@@ -8,34 +8,60 @@ module Jam
       @children = []
       @parent
       @loaded = false
+
+      @iterating = false
+      @buffer = []
     end
 
     def update(secsElapsed)
-      @children.each { |e| e.update(secsElapsed) }
+      each_child { |e| e.update(secsElapsed) }
       self
     end
 
     def draw
-      @children.each { |e| e.draw }
+      each_child { |e| e.draw }
       self
     end
 
-    def addChildren(*entities)
-      my_world = world
-      @children.concat(entities)
-      entities.each do |entity|
-        entity.parent = self
-        entity.send(:_load, my_world) if my_world
+    def attach_children(*entities)
+      if @iterating
+        @buffer << [__method__, *entities]
+      else
+        my_world = world
+        @children.concat(entities)
+        entities.each do |entity|
+          entity.parent = self
+          entity.send(:_load, my_world) if my_world
+        end
       end
+
       self
     end
 
-    def deleteChildren(*entities)
-      entities.each do |entity|
-        entity.parent = nil
-        @children.delete(entity)
+    def detach_children(*entities)
+      if @iterating
+        @buffer << [__method__, *entities]
+      else
+        entities.each do |entity|
+          entity.parent = nil
+          @children.delete(entity)
+        end
       end
+
       self
+    end
+
+    def detach
+      @parent.detach_children(self) if @parent 
+    end
+
+    def each_child(&block)
+      return if @children.size == 0
+      @iterating = true
+      @children.each(&block)
+    ensure
+      @iterating = false
+      flush_buffer
     end
 
     def world
@@ -54,6 +80,17 @@ module Jam
         self.load(world)
         @loaded = true
         @children.each { |e| e.send(:_load, world) }
+      end
+
+      def flush_buffer
+        fail if @iterating
+
+        @buffer.each do |item|
+          method, *args = item 
+          send(method, *args)
+        end
+
+        @buffer.clear
       end
 
   end

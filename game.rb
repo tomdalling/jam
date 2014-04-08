@@ -12,27 +12,19 @@ class GameWindow < Jam::Window
     @player = Player.new
     @player.position.set!(width/2, height/2)
 
-    world.root.addChildren(@player)
+    world.root.attach_children(@player)
     world.assets[:music].play
   end
 
   def button_down(button_id)
     close if button_id == Gosu::KbEscape
 
+    @world.root.attach_children(Ball.new(1, @player.position))
     world.assets[:sound].play
   end
 
   def update
     @camera.center = @player.position
-
-    @world.root.deleteChildren(@player)
-    10.times do
-      world.root.addChildren(Ball.new(1, 1))
-      if world.root.children.size > 5000
-        world.root.deleteChildren(world.root.children.first)
-      end
-    end
-    @world.root.addChildren(@player)
 
     @player.position.x += 10 if button_down? Gosu::KbRight
     @player.position.x -= 10 if button_down? Gosu::KbLeft
