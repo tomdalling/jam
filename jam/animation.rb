@@ -13,7 +13,7 @@ module Jam
       @spf = 1.0/@fps
     end
 
-    def instance
+    def to_sprite
       AnimationInstance.new(self)
     end
 

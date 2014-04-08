@@ -2,7 +2,7 @@ class Ball < Jam::SpriteEntity
   jam_vector_accessor :velocity
 
   def initialize(generation = 1, position = nil, direction = nil)
-    super()
+    super(:ball)
     @velocity = Jam::Vector.new
     @generation = generation
     @rotational_velocity = Jam.rand(-360.0..360.0)
@@ -11,10 +11,6 @@ class Ball < Jam::SpriteEntity
     @scale.set!(4.0/@generation)
     @position.set!(position) if position
     @velocity.set!(direction).multiply!(200/@generation) if direction
-  end
-
-  def load(world)
-    @image = world.assets[:ball]
   end
 
   def update(secs_elapsed)
