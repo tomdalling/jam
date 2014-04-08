@@ -9,6 +9,14 @@ module Jam
       self.new(Jam.rand(x_range), Jam.rand(y_range))
     end
 
+    def self.from(obj)
+      if obj.is_a?(Vector)
+        obj
+      else
+        Vector.new(obj)
+      end
+    end
+
     def initialize(*args)
       args = [0, 0] if args.length == 0
       set!(*args)
