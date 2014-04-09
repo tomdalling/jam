@@ -38,4 +38,9 @@ module Jam
     Gosu::Font.new(collection.window, collection.resolve_path(path), options.fetch(:height))
   end
 
+  AssetLoader.register(:label) do |collection, text, font_key|
+    font = collection[font_key]
+    Gosu::Image.from_text(collection.window, text, font.name, font.height)
+  end
+
 end

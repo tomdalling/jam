@@ -1,5 +1,4 @@
 module Jam
-
   class SpriteEntity < Entity
     attr_accessor :visible
     attr_accessor :tint
@@ -34,11 +33,16 @@ module Jam
 
     def draw(context)
       context.with_transform(@position, @anchor, @rotation, @scale, @tint) do
-        @sprite.draw(context) if @sprite && @visible
+        draw_self(context)
         super
       end
     end
 
-  end
+    protected
 
+      def draw_self(context)
+        @sprite.draw(context) if @sprite && @visible
+      end
+
+  end
 end

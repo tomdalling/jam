@@ -6,7 +6,7 @@ require_relative 'player'
 class GameWindow < Jam::Window
 
   def initialize
-    super(width: 800, height: 600)
+    super(width: 640, height: 480)
     @background = world.assets[:background]
     @camera = Jam::Camera.new
     @player = Player.new
@@ -34,12 +34,9 @@ class GameWindow < Jam::Window
   end
 
   def draw
-    @camera.apply(self) do
-      @background.draw(0,0,0)
-      super
-    end
-
-    world.assets[:font].draw("FPS: #{fps}", 0, 0, 0)
+    @background.draw(0,0,0)
+    @camera.apply(self) { super }
+    world.assets[:font].draw("FPS: #{fps}", 500, 0, 0)
   end
 
 end
