@@ -1,8 +1,9 @@
 class Ball < Jam::SpriteEntity
+  asset :ball
   jam_vector_accessor :velocity
 
   def initialize(generation = 1, position = nil, direction = nil)
-    super(:ball)
+    super()
     @velocity = Jam::Vector.new
     @generation = generation
     @rotational_velocity = Jam.rand(-360.0..360.0)
@@ -13,7 +14,7 @@ class Ball < Jam::SpriteEntity
     @velocity.set!(direction).multiply!(200/@generation) if direction
   end
 
-  def load(world)
+  def load(game)
     super
     @anchor.set!(@sprite.width/2, @sprite.height/2)
   end
@@ -37,7 +38,6 @@ class Ball < Jam::SpriteEntity
     down = Ball.new(@generation + 1, @position, [0,1])
     left = Ball.new(@generation + 1, @position, [-1,0])
     @parent.attach_children(up, right, down, left)
-    detach
   end
 
 end

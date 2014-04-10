@@ -4,7 +4,7 @@ module Jam
     attr_accessor :parent
     attr_reader :children
 
-    def initialize()
+    def initialize
       @children = []
       @parent
       @loaded = false
@@ -27,11 +27,11 @@ module Jam
       if @iterating
         @buffer << [__method__, *entities]
       else
-        my_world = world
+        my_game = game
         @children.concat(entities)
         entities.each do |entity|
           entity.parent = self
-          entity.send(:_load, my_world) if my_world
+          entity.send(:_load, my_game) if my_game
         end
       end
 
@@ -64,22 +64,22 @@ module Jam
       flush_buffer
     end
 
-    def world
-      @parent && @parent.world
+    def game
+      @parent && @parent.game
     end
 
     protected
 
-      def load(world)
+      def load(game)
       end
 
     private
 
-      def _load(world)
-        return if @loaded || world.nil?
-        self.load(world)
+      def _load(game)
+        return if @loaded || game.nil?
+        self.load(game)
         @loaded = true
-        @children.each { |e| e.send(:_load, world) }
+        @children.each { |e| e.send(:_load, game) }
       end
 
       def flush_buffer

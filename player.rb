@@ -1,16 +1,13 @@
 class Player < Jam::SpriteEntity
+  asset :player
 
-  def initialize
-    super(:player)
-    @tint = 0xff0000ff
-    @scale.set!(2, 2)
-  end
-
-  def load(world)
+  def load(game)
     super
+    @tint = 0xff0000ff
+    self.scale = 2
     @sprite.speed = 2
     @anchor.set!(@sprite.width/2, @sprite.height)
-    @name = world.assets[:player_name]
+    @name = game.assets[:player_name]
   end
 
   def draw_self(context)

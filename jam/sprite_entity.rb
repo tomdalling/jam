@@ -8,20 +8,20 @@ module Jam
     jam_vector_accessor :scale
     jam_vector_accessor :anchor
 
-    def initialize(sprite = nil)
-      super()
+    def initialize
+      super
       @visible = true
       @tint = 0xffffffff
       @rotation = 0
-      @sprite = sprite
+      @sprite = nil
       @position = Vector.new
       @scale = Vector.new(1,1)
       @anchor = Vector.new
     end
 
-    def load(world)
-      if @sprite.is_a?(Symbol)
-        asset = world.assets[@sprite]
+    def load(game)
+      if self.asset_key
+        asset = game.assets[self.asset_key]
         asset = asset.to_sprite if asset.respond_to?(:to_sprite)
         @sprite = asset
       end
@@ -36,6 +36,12 @@ module Jam
         draw_self(context)
         super
       end
+    end
+
+    class_attribute :asset_key
+    self.asset_key = nil
+    def self.asset(key)
+      self.asset_key = key
     end
 
     protected

@@ -2,20 +2,18 @@ module Jam
 
   class Camera
     jam_vector_accessor :center
-    attr_accessor :zoom
+    jam_vector_accessor :zoom
 
     def initialize
       @center = Vector.new
-      @zoom = 1
+      @zoom = Vector.new(1, 1)
+      @window_center = Vector.new
     end
 
-    def apply(window)
-      window.translate(window.width/2.0, window.height/2.0) do
-        window.scale(@zoom, @zoom) do
-          window.translate(-@center.x, -@center.y) do
-            yield
-          end
-        end
+    def apply(context)
+      @window_center.set!(context.window.width/2.0, context.window.height/2.0)
+      context.with_transform(@window_center, @center, 0, @zoom, 0xffffffff) do
+        yield
       end
     end
 

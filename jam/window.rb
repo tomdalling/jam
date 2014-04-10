@@ -1,18 +1,22 @@
 module Jam
 
   class Window < ::Gosu::Window
-    attr_reader :world
+    attr_reader :game
 
     def initialize(options={})
-      options = {
-        width: 640,
-        height: 480,
-        fullscreen: false
-      }.merge(options)
+      options = options.reverse_merge(
+        game: nil, #required
+        title: 'Game',
+        size: [640, 480],
+        fullscreen: false,
+      )
 
-      super(options.fetch(:width), options.fetch(:height), options.fetch(:fullscreen))
+      size = Vector.from(options.fetch(:size))
+      super(size.x, size.y, options.fetch(:fullscreen))
+      self.caption = options.fetch(:title)
+      @game = options.fetch(:game)
+      @draw_context = DrawContext.new(self)
       @lastUpdate = nil
-      @world = make_world
       @fps = FPS.new
     end
 
@@ -21,13 +25,13 @@ module Jam
       if @lastUpdate
         elapsed = now - @lastUpdate
         @fps.millis_elapsed(elapsed)
-        @world.update(elapsed/1000.0)
+        @game.update(elapsed/1000.0)
       end
       @lastUpdate = now
     end
 
     def draw
-      @world.draw
+      @game.draw(@draw_context)
       @fps.frame_rendered
     end
 
@@ -35,11 +39,9 @@ module Jam
       @fps.value
     end
 
-    protected
-
-      def make_world
-        World.new(AssetCollection.new(self, 'assets/manifest.rb'))
-      end
+    def button_down(*args)
+      @game.button_down(*args)
+    end
 
   end
 
