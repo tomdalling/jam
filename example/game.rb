@@ -1,4 +1,3 @@
-require 'byebug'
 require 'jam'
 require_relative 'ball'
 require_relative 'player'

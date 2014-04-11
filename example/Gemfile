@@ -1,0 +1,3 @@
+source 'http://rubygems.org'
+
+gem 'jam', git: 'https://github.com/tomdalling/jam.git'
