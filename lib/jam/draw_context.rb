@@ -1,5 +1,4 @@
 module Jam
-
   class DrawContext
     attr_reader :window
 
@@ -29,5 +28,4 @@ module Jam
     end
 
   end
-  
 end

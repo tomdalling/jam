@@ -1,20 +1,18 @@
 module Jam
-
   class Entity < Sprite::Base
     attr_accessor :parent
     attr_reader :children
 
     def initialize
       @children = []
-      @parent
+      @parent = nil
       @loaded = false
-
       @iterating = false
       @buffer = []
     end
 
-    def update(secsElapsed)
-      each_child { |e| e.update(secsElapsed) }
+    def update(secs_elapsed)
+      each_child { |e| e.update(secs_elapsed) }
       self
     end
 
@@ -27,11 +25,11 @@ module Jam
       if @iterating
         @buffer << [__method__, *entities]
       else
-        my_game = game
+        self_game = game
         @children.concat(entities)
         entities.each do |entity|
           entity.parent = self
-          entity.send(:_load, my_game) if my_game
+          entity.send(:_load, self_game) if self_game
         end
       end
 
@@ -94,5 +92,4 @@ module Jam
       end
 
   end
-
 end

@@ -3,7 +3,6 @@ module Jam
     attr_accessor :visible
     attr_accessor :tint
     attr_accessor :rotation # degrees
-    attr_reader :image
     jam_vector_accessor :position
     jam_vector_accessor :scale
     jam_vector_accessor :anchor

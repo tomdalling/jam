@@ -1,12 +1,11 @@
 module Jam
-
   class Animation
     attr_reader :frames, :fps, :spf
 
     def initialize(frames, options = {})
-      options = {
-        fps: 4
-      }.merge(options)
+      options = options.reverse_merge(
+        fps: 4,
+      )
 
       @frames = frames
       @fps = options.fetch(:fps)
@@ -21,11 +20,11 @@ module Jam
 
 
   AssetLoader.register(:animation) do |collection, path, options = {}|
-    options = {
+    options = options.reverse_merge(
       grid: [1,1], # [columns, rows]
       # optional keys:
       # row: 1 # only take frames from a single row (top row = 1)
-    }.merge(options)
+    ).merge(options)
 
     columns, rows = options.delete(:grid)
 
@@ -38,7 +37,7 @@ module Jam
     )
 
     if options[:row]
-      r = options[:row] - 1
+      r = options.delete(:row) - 1
       raise ArgumentError if r >= rows
       first_frame = columns * r
       last_frame = first_frame + columns - 1

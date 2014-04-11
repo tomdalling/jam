@@ -1,5 +1,4 @@
 module Jam
-
   class Window < ::Gosu::Window
     attr_reader :game
 
@@ -44,5 +43,4 @@ module Jam
     end
 
   end
-
 end

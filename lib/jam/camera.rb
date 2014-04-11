@@ -1,5 +1,4 @@
 module Jam
-
   class Camera
     jam_vector_accessor :center
     jam_vector_accessor :zoom
@@ -18,5 +17,4 @@ module Jam
     end
 
   end
-
 end

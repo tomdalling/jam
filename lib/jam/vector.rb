@@ -1,5 +1,4 @@
 module Jam
-
   class Vector
     attr_accessor :x, :y
 
@@ -53,6 +52,13 @@ module Jam
 
     def length=(len)
       unitize!.multiply!(len)
+      len
+    end
+
+    def with_length(len)
+      result = dup
+      result.length = len
+      result
     end
 
     def unitize
@@ -60,14 +66,19 @@ module Jam
     end
 
     def unitize!
-      l = length
-      @x /= l
-      @y /= l
-      self
+      multiply!(1.0/length)
+    end
+
+    def -@
+      dup.negate!
+    end
+
+    def negate!
+      multiply!(-1)
     end
 
     def add!(other)
-      raise ArgumentError, other unless other.is_a? Vector
+      other = Vector.from(other)
       @x += other.x
       @y += other.y
       self
@@ -78,9 +89,7 @@ module Jam
     end
 
     def subtract!(other)
-      raise ArgumentError, other unless other.is_a? Vector
-      @x -= other.x
-      @y -= other.y
+      add!(Vector.from(other).negate)
       self
     end
 
@@ -98,8 +107,11 @@ module Jam
       dup.multiply!(scalar)
     end
 
-  end
+    def /(scalar)
+      dup.multiply!(1.0/scalar)
+    end
 
+  end
 end
 
 class Class

@@ -3,6 +3,8 @@ require 'active_support/all'
 require 'jam/game'
 require 'jam/vector'
 require 'jam/sprite'
+require 'jam/sprite/image.rb'
+require 'jam/sprite/animation.rb'
 require 'jam/entity'
 require 'jam/sprite_entity'
 require 'jam/draw_context'
@@ -21,3 +23,4 @@ module Jam
   end
 
 end
+

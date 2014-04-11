@@ -2,13 +2,16 @@ module Jam
 
   class UnhandledAssetTypeError < StandardError; end
   class DuplicateLoaderError < StandardError; end
+  class AssetLoadingFailedError < StandardError; end
 
   class AssetLoader
     @loaders = {}
 
     def self.load_asset(type, *args)
       loader = @loaders[type] || raise(UnhandledAssetTypeError, type)
-      loader.call(*args)
+      asset = loader.call(*args)
+      raise(AssetLoadingFailedError, [type, *args]) unless asset
+      asset
     end
 
     def self.register(type, &block)
@@ -31,9 +34,9 @@ module Jam
   end
 
   AssetLoader.register(:font) do |collection, path, options|
-    options = {
-      height: 20 #pixels
-    }.merge(options)
+    options = options.reverse_merge(
+      height: 20, #pixels
+    )
 
     Gosu::Font.new(collection.window, collection.resolve_path(path), options.fetch(:height))
   end
@@ -44,3 +47,4 @@ module Jam
   end
 
 end
+

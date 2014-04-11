@@ -11,6 +11,3 @@ module Jam
   end
 end
 
-require_relative 'sprite/image.rb'
-require_relative 'sprite/animation.rb'
-
