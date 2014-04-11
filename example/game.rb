@@ -1,5 +1,5 @@
 require 'byebug'
-require_relative 'jam'
+require 'jam'
 require_relative 'ball'
 require_relative 'player'
 
