@@ -6,6 +6,7 @@ module Jam
     attr_reader :window
 
     def initialize(window, manifest_path)
+      raise(ArgumentError, "Can't read #{manifest_path}") unless File.readable?(manifest_path)
       @window = window
       @assets = {}
 

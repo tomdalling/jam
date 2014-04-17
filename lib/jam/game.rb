@@ -1,6 +1,6 @@
 module Jam
   class Game
-    attr_reader :window, :assets
+    attr_reader :window
 
     def initialize
       @window = Window.new(self.window_options.merge(game: self))
@@ -9,6 +9,10 @@ module Jam
       if self.asset_manifest_path
         @assets = AssetCollection.new(@window, self.asset_manifest_path)
       end
+    end
+
+    def assets
+      @assets || fail("Assets not loaded")
     end
 
     def button_down(button_id)
